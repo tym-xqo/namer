@@ -1,7 +1,5 @@
-FROM alpine:edge
+FROM python:3-alpine
 MAINTAINER yagermadden@gmail.com
-
-RUN apk update && apk add --upgrade python3
 
 RUN pip3 install flask \
     gunicorn

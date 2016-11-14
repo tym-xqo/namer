@@ -258,7 +258,7 @@ def namer():
         "damage",
         "day",
         "death",
-        "devise",
+        "device",
         "disease",
         "dog",
         "doll",
