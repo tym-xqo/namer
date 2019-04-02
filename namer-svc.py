@@ -1,6 +1,8 @@
-from flask import Flask
-import os, random, wordlists
+import os
+import random
 
+import wordlists
+from flask import Flask
 
 app = Flask(__name__)
 
@@ -8,6 +10,7 @@ word_sources = {
     "test": wordlists.TestWordlist(),
     "turboencabulator": wordlists.TurboencabulatorWordlist(),
 }
+
 
 def namer():
     adjectives = [
