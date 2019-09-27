@@ -213,8 +213,8 @@ def namer():
         "x-ray",
         "yellow",
         "young",
-        "zombie"
-        ]
+        "zombie",
+    ]
 
     nouns = [
         "airplane",
@@ -416,29 +416,30 @@ def namer():
         "youth",
         "zebra",
         "zero",
-        "zombie"
-        ]
+        "zombie",
+    ]
 
     try:
         source_key = os.environ["NAMER_WORD_SOURCE"]
         source = word_sources[source_key]
         adj = random.choice(source.adjectives)
         nom = random.choice(source.nouns)
-    except Exception as e:
+    except Exception as e:  # noqa(F841)
         adj = random.choice(adjectives)
         nom = random.choice(nouns)
 
-    dig = ''.join(["%s" % random.randint(0, 9) for num in range(0, 2)])
+    dig = "".join([str(random.randint(0, 9)) for num in range(0, 2)])
 
-    name = '-'.join((adj, nom, dig))
-    return(name)
-
-
-@app.route('/')
-def strategy_txt():
-    name = namer() + '\n'
+    name = "-".join((adj, nom, dig))
     return name
 
 
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+@app.route("/")
+def strategy_txt():
+    name = namer() + "\n"
+    return name
+
+
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=5000)
+
