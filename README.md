@@ -29,4 +29,4 @@ Currently available at https://us-central1-whereami-map.cloudfunctions.net/namer
 
 ## CLI
 
-`main.py` uses only standard library, so you should be able invoke `main.py` directly. (Included requirements files are for installing [`functions-framework`](https://github.com/GoogleCloudPlatform/functions-framework-python) for local cloud function testing.) It will default to the original `namer` list, or you can pass it `(--list|-l)=encabulator` to get a name based on Turboencabulator terms.
+`main.py` uses only standard library, so you should be able invoke `main.py` directly, without needing to activate a virtualenv or install any requirements. (Included requirements files are for installing [`functions-framework`](https://github.com/GoogleCloudPlatform/functions-framework-python) for local cloud function testing.) It will default to the original `namer` list, or you can pass it `(--list|-l)=encabulator` to get a name based on Turboencabulator terms.
