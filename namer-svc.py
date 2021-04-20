@@ -1,5 +1,19 @@
-namer = {
-    "adjectives": [
+import os
+import random
+
+import wordlists
+from flask import Flask
+
+app = Flask(__name__)
+
+word_sources = {
+    "test": wordlists.TestWordlist(),
+    "turboencabulator": wordlists.TurboencabulatorWordlist(),
+}
+
+
+def namer():
+    adjectives = [
         "aliased",
         "alien",
         "ambient",
@@ -200,8 +214,9 @@ namer = {
         "yellow",
         "young",
         "zombie",
-    ],
-    "nouns": [
+    ]
+
+    nouns = [
         "airplane",
         "alias",
         "alien",
@@ -402,200 +417,28 @@ namer = {
         "zebra",
         "zero",
         "zombie",
-    ],
-}
-encabulator = {
-    "nouns": [
-        "addition",
-        "advance",
-        "aid",
-        "ambifacient",
-        "amulite",
-        "appreciation",
-        "arm",
-        "attempt",
-        "bar",
-        "barescent",
-        "base",
-        "bearing",
-        "block",
-        "boiling",
-        "brush",
-        "c",
-        "casing",
-        "coefficient",
-        "conductor",
-        "conductor",
-        "conjunction",
-        "current",
-        "dadoscope",
-        "date",
-        "decommutator",
-        "delta",
-        "depleneration",
-        "detector",
-        "detractor",
-        "development",
-        "development",
-        "difficulty",
-        "dingle",
-        "directance",
-        "disposition",
-        "drammock",
-        "encabulator",
-        "end",
-        "engineer",
-        "evolute",
-        "fan",
-        "flux",
-        "fumbling",
-        "girdlespring",
-        "grammeter",
-        "gremlin",
-        "grillage",
-        "grouting",
-        "hopper",
-        "idea",
-        "interaction",
-        "lack",
-        "level",
-        "line",
-        "liquid",
-        "lotus",
-        "machine",
-        "magneto",
-        "marzelvane",
-        "mixture",
-        "motion",
-        "nagling",
-        "nivelsheave",
-        "number",
-        "oil",
-        "order",
-        "peak",
-        "percent",
-        "pericosity",
-        "phase",
-        "phenyhydrobenzamine",
-        "pilfrometer",
-        "pin",
-        "pipe",
-        "plate",
-        "point",
-        "power",
-        "prefection",
-        "principle",
-        "purwell",
-        "reluctance",
-        "retroencabulator",
-        "roffit",
-        "rotor",
-        "running",
-        "semiboloid",
-        "shim",
-        "side",
-        "sinusoidal",
-        "slip",
-        "solt",
-        "spamshaft",
-        "spandrel",
-        "sprocket",
-        "stator",
-        "stress",
-        "stud",
-        "temperature",
-        "tetraiodohexamine",
-        "tooth",
-        "trunnion",
-        "turboencabulator",
-        "type",
-        "use",
-        "use",
-        "value",
-        "vaneshaft",
-        "way",
-        "wending",
-        "wennel",
-        "winding",
-        "work",
-        "year",
-    ],
-    "adjectives": [
-        "ambifacient",
-        "anhydrous",
-        "annual",
-        "barescent",
-        "bituminous",
-        "capable",
-        "capacitive",
-        "cardinal",
-        "conceived",
-        "current",
-        "diathecial",
-        "differential",
-        "dingle",
-        "direct",
-        "distinct",
-        "drammock",
-        "early",
-        "electrical",
-        "further",
-        "grouting",
-        "high",
-        "hydrocoptic",
-        "inverse",
-        "kyptonastic",
-        "large",
-        "latter",
-        "latter",
-        "logarithmic",
-        "lunar",
-        "main",
-        "malleable",
-        "metapolar",
-        "modial",
-        "nagling",
-        "new",
-        "nofer",
-        "non-reversible",
-        "normal",
-        "only",
-        "operating",
-        "original",
-        "panendermic",
-        "pentametric",
-        "perfect",
-        "phase",
-        "pietic",
-        "possible",
-        "prefabulated",
-        "present",
-        "quasi",
-        "reactive",
-        "reciprocating",
-        "regurgitative",
-        "relaxive",
-        "reminative",
-        "retrograde",
-        "reversible",
-        "robust",
-        "roffit",
-        "semiboloid",
-        "seventh",
-        "side",
-        "simple",
-        "skor",
-        "specific",
-        "spiral",
-        "spurving",
-        "standard",
-        "superaminative",
-        "synchronising",
-        "tankered",
-        "technical",
-        "termic",
-        "transcetental",
-        "unilateral",
-        "up",
-    ],
-}
+    ]
+
+    try:
+        source_key = os.environ["NAMER_WORD_SOURCE"]
+        source = word_sources[source_key]
+        adj = random.choice(source.adjectives)
+        nom = random.choice(source.nouns)
+    except Exception as e:  # noqa(F841)
+        adj = random.choice(adjectives)
+        nom = random.choice(nouns)
+
+    dig = "".join([str(random.randint(0, 9)) for num in range(0, 2)])
+
+    name = "-".join((adj, nom, dig))
+    return name
+
+
+@app.route("/")
+def strategy_txt():
+    name = namer() + "\n"
+    return name
+
+
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=5000)
